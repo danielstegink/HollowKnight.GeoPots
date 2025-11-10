@@ -9,7 +9,7 @@ namespace GeoPots
     {
         internal static GeoPots Instance;
 
-        public override string GetVersion() => "1.0.0.0";
+        public override string GetVersion() => "1.1.0.0";
 
         /// <summary>
         /// Stores the geo rock from the global pool
@@ -47,11 +47,11 @@ namespace GeoPots
         private void BreakPots(On.Breakable.orig_Break orig, Breakable self, float flingAngleMin, float flingAngleMax, float impactMultiplier)
         {
             //Log($"Breaking {self.gameObject.name}");
-
             orig(self, flingAngleMin, flingAngleMax, impactMultiplier);
 
             // Barrels are smaller and more common, so they will have a 50% of dropping 1 geo
-            if (self.gameObject.name.Contains("barrel"))
+            if (self.gameObject.name.ToLower().Contains("barrel") ||
+                self.gameObject.name.ToLower().Contains("deep_egg_set"))
             {
                 int random = UnityEngine.Random.Range(1, 101);
                 //Log($"Barrel chance: {random} vs 50");
@@ -62,7 +62,7 @@ namespace GeoPots
             }
 
             // Carts are larger, so they will have a 75% of dropping 5 geo
-            if (self.gameObject.name.Contains("cart"))
+            if (self.gameObject.name.ToLower().Contains("cart"))
             {
                 int random = UnityEngine.Random.Range(1, 101);
                 //Log($"Cart chance: {random} vs 75");
